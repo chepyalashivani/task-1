@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calculator</title>
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      background: #f0f0f0;
+    }
+    .calculator {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    }
+    #result {
+      font-size: 2em;
+      margin-bottom: 10px;
+      min-height: 40px;
+    }
+    input {
+      width: 200px;
+      font-size: 1.2em;
+      padding: 10px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 10px 20px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div id="result">0</div>
+    <input type="text" id="expression" placeholder="e.g. 2+3*4" />
+    <br />
+    <button onclick="calculate()">=</button>
+  </div>
+
+  <script>
+    async function calculate() {
+      const expression = document.getElementById('expression').value;
+      const response = await fetch('/calculate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ expression })
+      });
+      const data = await response.json();
+      document.getElementById('result').textContent = data.result;
+    }
+  </script>
+</body>
+</html>
